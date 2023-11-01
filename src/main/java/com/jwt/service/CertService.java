@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class CertService {
 
 	private String pin = "1234";
-	private String certPath = "cert/jwtCert.p12";
+	private String certPath = "cert/certificate.p12";
 
 	public RSAPublicKey loadRSAPublicKey()
 			throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {

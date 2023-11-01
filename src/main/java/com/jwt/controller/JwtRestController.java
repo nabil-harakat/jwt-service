@@ -32,10 +32,17 @@ public class JwtRestController {
 	public ResponseEntity<Map<String, String>> createToken(@RequestBody Map<String, String> data)
 			throws UnrecoverableKeyException, IllegalArgumentException, KeyStoreException, NoSuchAlgorithmException,
 			CertificateException, IOException {
-
 		log.info(data);
 		String token = jwtService.createToken(data);
-
 		return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("token", token));
+	}
+	
+	@PostMapping(value="/verify")
+	public ResponseEntity<Map<String, String>> verify(@RequestBody Map<String, String> data)
+			throws UnrecoverableKeyException, IllegalArgumentException, KeyStoreException, NoSuchAlgorithmException,
+			CertificateException, IOException {
+		log.info(data);
+		jwtService.verifyToken(data);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 }

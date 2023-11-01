@@ -73,9 +73,17 @@ public class JwtService {
 
 	}
 
-	public void verifyToken(String jwtToken) throws IllegalArgumentException, KeyStoreException,
+	public void verifyToken(Map<String, String> data) throws IllegalArgumentException, KeyStoreException,
 			NoSuchAlgorithmException, CertificateException, IOException {
-
+		// check inputs
+		if (data == null) {
+			throw new IllegalArgumentException("Data map is null");
+		}
+		// Validate inputs
+		String subject = data.get("token");
+		if (subject == null || subject.isEmpty()) {
+			throw new IllegalArgumentException("Token is required");
+		}
 		// Define the algorithm and secret key used to sign the JWT
 		Algorithm algorithm = Algorithm.RSA256(certService.loadRSAPublicKey());
 
@@ -84,7 +92,7 @@ public class JwtService {
 
 		// Verify the JWT
 		try {
-			DecodedJWT decodedJWT = verifier.verify(jwtToken);
+			DecodedJWT decodedJWT = verifier.verify(data.get("token"));
 			log.info("JWT is valid.");
 			log.info("Subject: " + decodedJWT.getSubject());
 			log.info("Issuer: " + decodedJWT.getIssuer());
